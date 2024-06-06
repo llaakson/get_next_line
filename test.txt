@@ -1,0 +1,6 @@
+Nematodes, the tiny roundworms that make up the phylum Nematoda, are among the most abundant creatures on earth [1].
+Most nematodes are free-living and sustain themselves by consuming bacteria or other microscopic organisms.
+Other species are parasites of plants or animals. Plant-parasitic nematodes can devastate a wide range of crop plants, causing billions of dollars in agricultural losses each year [2].
+All plant parasitic nematodes are obligate parasites, feeding exclusively on the cytoplasm of living plant cells.
+The most economically important groups of nematodes are the sedentary endoparasites, which include the genera Heterodera and Globodera (cyst nematodes) and Meloidogyne (root-knot nematodes).
+Both the cyst and root-knot nematodes have complex interactions with their host, but there are characteristic differences in their parasitic cycles (Figure 1).
