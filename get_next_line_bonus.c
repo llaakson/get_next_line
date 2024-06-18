@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 16:40:55 by llaakson          #+#    #+#             */
-/*   Updated: 2024/06/17 17:58:34 by llaakson         ###   ########.fr       */
+/*   Created: 2024/06/16 20:15:39 by llaakson          #+#    #+#             */
+/*   Updated: 2024/06/17 17:59:58 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static	char	*ft_free(char **str)
 {
@@ -86,20 +86,20 @@ static	char	*ft_read(int fd, char *buffer, char *remain)
 char	*get_next_line(int fd)
 {
 	char			*buffer;
-	static char		*remain;
+	static char		*remain[256];
 	char			*ret;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0 || 256 <= fd || BUFFER_SIZE > INT_MAX)
 		return (NULL);
 	buffer = malloc(sizeof(char *) * BUFFER_SIZE + 1);
 	if (!buffer)
-		return (ft_free(&remain));
-	remain = ft_read(fd, buffer, remain);
-	if (!remain)
+		return (ft_free(&remain[fd]));
+	remain[fd] = ft_read(fd, buffer, remain[fd]);
+	if (!remain[fd])
 		return (NULL);
-	ret = ft_get_line(remain);
+	ret = ft_get_line(remain[fd]);
 	if (!ret)
-		return (ft_free(&remain));
-	ft_remain(&remain);
+		return (ft_free(&remain[fd]));
+	ft_remain(&remain[fd]);
 	return (ret);
 }

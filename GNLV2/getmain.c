@@ -6,34 +6,32 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:27:04 by llaakson          #+#    #+#             */
-/*   Updated: 2024/06/17 17:41:12 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:52:47 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-int main(int argc, char **argv)
+int main(void)
 {
 
-int fd = -1;
+int fd;
 char *print;
 
-if (argc == 2)
-	fd = open(argv[1], O_RDONLY);
-else if (argc == 1)
-		fd = STDIN_FILENO;
+fd = open("test.txt", O_RDONLY);
 
-print = NULL;
-while (1)
+//print = get_next_line(fd);
+//printf("%s", print);
+
+int i = 10;
+while (i--)
 {
 	print = get_next_line(fd);
 	if (print == NULL)
 		break ;
-	printf("%s", print);
-	free(print);
+	printf("line: %s", print);
 }
-close(fd);
 return (0);
 }
 

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 13:24:32 by llaakson          #+#    #+#             */
-/*   Updated: 2024/06/17 18:01:06 by llaakson         ###   ########.fr       */
+/*   Created: 2024/06/16 20:17:02 by llaakson          #+#    #+#             */
+/*   Updated: 2024/06/16 21:50:04 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*ft_strjoin_gnl(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*s3;
 	size_t	len1;
@@ -22,7 +22,10 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	len2 = ft_strlen(s2);
 	s3 = malloc((len1 + len2 + 1) * sizeof(char));
 	if (!s3)
+	{
+		free (s1);
 		return (NULL);
+	}
 	ft_memcpy(s3, s1, len1);
 	ft_memcpy(s3 + len1, s2, len2);
 	s3[len1 + len2] = '\0';
@@ -60,6 +63,20 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			i;
+	unsigned char	*str;
+
+	str = s;
+	i = 0;
+	while (i < n)
+	{
+		str[i] = '\0';
+		++i;
+	}
+}
+
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t	i;
@@ -77,24 +94,4 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		i++;
 	}
 	return (dst);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*source;
-	char	*destination;
-	int		i;
-
-	source = (char *)s1;
-	destination = malloc (sizeof(char) * (ft_strlen(source) + 1));
-	if (destination == NULL)
-		return (NULL);
-	i = 0;
-	while (source[i] != '\0')
-	{
-		destination[i] = source[i];
-		++i;
-	}
-	destination[i] = '\0';
-	return (destination);
 }

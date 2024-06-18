@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 13:24:32 by llaakson          #+#    #+#             */
-/*   Updated: 2024/06/17 18:01:06 by llaakson         ###   ########.fr       */
+/*   Created: 2024/06/16 20:17:02 by llaakson          #+#    #+#             */
+/*   Updated: 2024/06/17 18:01:33 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strjoin_gnl(char *s1, char *s2)
 {

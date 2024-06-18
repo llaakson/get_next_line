@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   ft_get_next_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 16:40:55 by llaakson          #+#    #+#             */
-/*   Updated: 2024/06/17 17:58:34 by llaakson         ###   ########.fr       */
+/*   Created: 2024/06/04 12:43:43 by llaakson          #+#    #+#             */
+/*   Updated: 2024/06/17 13:01:39 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static	char	*ft_free(char **str)
+void	ft_remain(char *remain, char *buffer, int buf_size)
 {
-	free(*str);
-	*str = NULL;
-	return (NULL);
-}
-
-static	void	ft_remain(char **remain)
-{
-	int		j;
-	char	*new_remain;
+	int	j;
 
 	j = 0;
-	while ((*remain)[j] && (*remain)[j] != '\n')
+	while (buffer[j] && buffer[j] != '\n')
 		j++;
-	if ((*remain)[j] == '\n')
+	if (buffer[j] == '\n')
 		j++;
-	new_remain = ft_strdup(*remain + j);
-	free (*remain);
-	*remain = new_remain;
+	ft_bzero(remain, BUFFER_SIZE + 1);
+	ft_memcpy(remain, (buffer + j), (buf_size - j));
 }
 
-static	char	*ft_get_line(char *buffer)
+char	*ft_get_line(char *buffer)
 {
 	int		i;
 	char	*str;
@@ -54,52 +45,52 @@ static	char	*ft_get_line(char *buffer)
 	return (str);
 }
 
-static	char	*ft_read(int fd, char *buffer, char *remain)
+char	*ft_read(int fd, char *buffer, int *buf_size, char *remain)
 {
 	int		sz;
-	char	*temp_buffer;
+	char	temp_buffer[BUFFER_SIZE + 1];
 
-	sz = 1;
-	while (sz)
+	while (1)
 	{
-		sz = read(fd, buffer, BUFFER_SIZE);
+		sz = read(fd, temp_buffer, BUFFER_SIZE);
 		if (sz == -1)
 		{
 			free(buffer);
-			return (ft_free(&remain));
+			remain[0] = 0;
+			return (NULL);
 		}
-		buffer[sz] = '\0';
-		temp_buffer = remain;
-		remain = ft_strjoin_gnl(remain, buffer);
-		if (!remain)
-		{
-			free (buffer);
-			return (ft_free(&temp_buffer));
-		}
-		if (ft_strchr(buffer, '\n'))
+		temp_buffer[sz] = '\0';
+		if (sz == 0)
+			break ;
+		buffer = ft_strjoin(buffer, temp_buffer);
+		*buf_size += sz;
+		if (!buffer || ft_strchr(temp_buffer, '\n'))
 			break ;
 	}
-	free(buffer);
-	return (remain);
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
 {
 	char			*buffer;
-	static char		*remain;
+	static char		remain[BUFFER_SIZE + 1];
 	char			*ret;
+	int				buf_size;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(sizeof(char *) * BUFFER_SIZE + 1);
 	if (!buffer)
-		return (ft_free(&remain));
-	remain = ft_read(fd, buffer, remain);
-	if (!remain)
 		return (NULL);
-	ret = ft_get_line(remain);
-	if (!ret)
-		return (ft_free(&remain));
-	ft_remain(&remain);
+	buf_size = ft_strlen(remain);
+	ft_memcpy(buffer, remain, buf_size);
+	buffer[buf_size] = 0;
+	if (!(ft_strchr(buffer, '\n')))
+		buffer = ft_read(fd, buffer, &buf_size, remain);
+	if (!buffer)
+		return (NULL);
+	ret = ft_get_line(buffer);
+	ft_remain(remain, buffer, buf_size);
+	free(buffer);
 	return (ret);
 }
